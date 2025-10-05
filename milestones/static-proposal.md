@@ -37,7 +37,7 @@ Size: All the world (pixels at 30m resolution), 1 columns
 
 Trees are defined as vegetation taller than 5m in height and are expressed as a percentage per output grid cell as ‘2000 Percent Tree Cover’. ‘Forest Cover Loss’ is defined as a stand-replacement disturbance, or a change from a forest to non-forest state, during the period 2000–2024. I have already worked with this dataset.
 
-### Data Source 5: Demographic and Health Surveys (DHS) 
+### Data Source 4: Demographic and Health Surveys (DHS) 
 
 URL: [Spatial Data] https://spatialdata.dhsprogram.com/home/
 Size: The DHS Program has released GPS (cluster‐level) datasets for 200+ surveys across ~63 countries.
