@@ -1,0 +1,10 @@
+*.nc
+
+climate_data.py
+climate_datav2.py
+
+*.csv
+*.dta
+*.json
+
+*.parquet
