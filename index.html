@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heat, Households, and Human Development</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+            line-height: 1.7;
+            color: #333;
+            background-color: #ffffff;
+        }
+
+        /* Chicago Maroon Header */
+        header {
+            background-color: #800000eb;
+            color: #ffffff;
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin: 0 auto;
+        }
+
+        /* Main Layout */
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 2rem;
+        }
+
+        /* Table of Contents */
+        nav.toc {
+            position: sticky;
+            top: 100px;
+            width: 280px;
+            height: fit-content;
+            padding: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        nav.toc h2 {
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #800000;
+            margin-bottom: 1rem;
+        }
+
+        nav.toc ul {
+            list-style: none;
+        }
+
+        nav.toc li {
+            margin-bottom: 0.75rem;
+        }
+
+        nav.toc a {
+            color: #666;
+            text-decoration: none;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            display: block;
+            padding: 0.25rem 0;
+            border-left: 3px solid transparent;
+            padding-left: 0.75rem;
+            transition: all 0.2s ease;
+        }
+
+        nav.toc a:hover {
+            color: #800000;
+            border-left-color: #800000;
+        }
+
+        nav.toc a.active {
+            color: #800000;
+            border-left-color: #800000;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            padding: 0 4rem 4rem 3rem;
+            max-width: 1100px;
+        }
+
+        section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 100px;
+        }
+
+        h2 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #800000;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #800000;
+        }
+
+        h3 {
+            font-size: 1.375rem;
+            font-weight: 600;
+            color: #333;
+            margin: 2rem 0 1rem;
+        }
+
+        p {
+            margin-bottom: 1.25rem;
+            font-size: 1.0625rem;
+        }
+
+        .lead {
+            font-size: 1.25rem;
+            font-weight: 400;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        /* Figures */
+        figure {
+            margin: 2.5rem 0;
+            background: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
+        figure img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 4px;
+        }
+
+        figcaption {
+            margin-top: 1rem;
+            font-size: 0.9375rem;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        figcaption strong {
+            color: #800000;
+            font-weight: 600;
+        }
+
+        /* Country Grid */
+        .country-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .country-grid figure {
+            margin: 0;
+            padding: 1rem;
+        }
+
+        .country-grid img {
+            width: 100%;
+            height: auto;
+        }
+
+        .country-grid figcaption {
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+
+        /* Equation boxes */
+        .equation {
+            background: #f5f5f5;
+            padding: 1.5rem;
+            border-left: 4px solid #800000;
+            margin: 2rem 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+
+        /* Callout boxes */
+        .callout {
+            background: #fff5f5;
+            border-left: 4px solid #800000;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 4px;
+        }
+
+        .callout h4 {
+            color: #800000;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Stats box */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #800000;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        /* Paper references */
+        .papers {
+            background: #f0f0f0;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+
+        .papers h3 {
+            margin-top: 0;
+        }
+
+        .paper-item {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: white;
+            border-radius: 4px;
+        }
+
+        .paper-title {
+            font-weight: 600;
+            color: #800000;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+            }
+
+            nav.toc {
+                position: relative;
+                top: 0;
+                width: 100%;
+                border-bottom: 1px solid #ddd;
+                margin-bottom: 2rem;
+            }
+
+            main {
+                padding: 0 2rem 4rem;
+            }
+
+            .country-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            header h1 {
+                font-size: 1.5rem;
+            }
+
+            main {
+                padding: 0 1.5rem 3rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .country-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Heat, Households, and Human Development</h1>
+    </header>
+
+    <div class="container">
+        <nav class="toc">
+            <h2>Contents</h2>
+            <ul>
+                <li><a href="#introduction">Introduction</a></li>
+                <li><a href="#temperature-trends">Temperature Trends</a></li>
+                <li><a href="#data-linkage">Data & Linkage</a></li>
+                <li><a href="#methods">Methods & Design</a></li>
+                <li><a href="#parenting">Heat & Parenting</a></li>
+                <li><a href="#development">Heat & Development</a></li>
+                <li><a href="#exposure">Synthesis</a></li>
+                <li><a href="#implications">Policy & Future Work</a></li>
+                <li><a href="#references">References</a></li>
+            </ul>
+        </nav>
+
+        <main>
+            <section id="introduction">
+                <h2 style="border: none; padding: 0; margin-bottom: 0.5rem; font-size: 1.5rem;">Understanding the Behavioral and Developmental Consequences of Rising Temperatures</h2>
+                <p style="font-size: 1rem; color: #666; margin-bottom: 2rem;">
+                    <strong>Andrés Felipe Camacho</strong><br>
+                    A data story based on Cuartas & Camacho (2025) and Cuartas et al. (2025)
+                </p>
+                
+                <p class="lead">
+                    Global temperatures are rising rapidly: 2024 was the warmest year on record and the first to exceed ~1.5 °C above the pre-industrial average, capping a decade of unprecedented heat according to WMO and Copernicus analyses.
+                </p>
+                
+                <p>
+                    This research project links household microdata from UNICEF's Multiple Indicator Cluster Surveys (MICS) with gridded climate reanalysis from ERA5-Land (monthly aggregates, 1950–present) to examine how heat translates into family life and child outcomes. We focus on two dimensions with direct human-development implications:
+                </p>
+                
+                <ul style="margin: 1.5rem 0 1.5rem 2rem;">
+                    <li style="margin-bottom: 0.75rem;"><strong>Parenting behaviors</strong> — e.g., violent punishment and psychological aggression</li>
+                    <li><strong>Early childhood development</strong> — measured via MICS' Early Childhood Development Index (ECDI)</li>
+                </ul>
+
+                <div class="stats">
+                    <div class="stat-card">
+                        <span class="stat-number">~21,000</span>
+                        <span class="stat-label">Children in Sample</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">6</span>
+                        <span class="stat-label">Countries</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">3,600+</span>
+                        <span class="stat-label">Geographic Clusters</span>
+                    </div>
+                </div>
+            </section>
+
+            <section id="temperature-trends">
+                <h2>1. Temperature Trends and Anomalies</h2>
+                
+                <p>
+                    Raw temperature series reveal strong seasonality. To make warming visible and comparable across places, we use anomalies relative to a 30-year climatological baseline (1991–2020).
+                </p>
+
+                <figure>
+                    <img src="gr1temperature_time_series.svg" alt="Temperature time series">
+                    <figcaption>
+                        <strong>Figure 1: Monthly Mean Temperature Over Time.</strong> The chart shows the median temperature (dark line) with maximum and minimum ranges (shaded areas). Red shading indicates warmer deviations above the median, while blue shows cooler deviations below. Data from ERA5-Land at ~0.1° (~10km) grid resolution.
+                    </figcaption>
+                </figure>
+
+                <figure>
+                    <img src="gr2rolling3m_anomalies.svg" alt="Rolling anomalies">
+                    <figcaption>
+                        <strong>Figure 2: 3-Month Rolling Heat Anomaly.</strong> Temperature anomalies show systematic positive deviations from the long-term baseline in recent years. The split between pre-2020 (tan) and post-2020 (red) highlights the acceleration of warming trends.
+                    </figcaption>
+                </figure>
+
+                <figure>
+                    <img src="gr3heat_map_moth_anomalies.svg" alt="Monthly anomaly heatmap">
+                    <figcaption>
+                        <strong>Figure 3: Seasonal Anomaly Patterns by Month.</strong> This heatmap reveals consistent warming across all months in recent years, with particularly intense anomalies in 2023-2024. The color scale ranges from cool (blue) to hot (red).
+                    </figcaption>
+                </figure>
+
+                <figure>
+                    <img src="gr4worldmapanomalies.svg" alt="World anomalies map">
+                    <figcaption>
+                        <strong>Figure 4: Global Context—Spatial Temperature Anomalies (2024).</strong> The map shows 2024 annual mean anomalies relative to the 1991-2020 baseline, revealing widespread warming across most regions of the globe.
+                    </figcaption>
+                </figure>
+
+                <div class="callout">
+                    <h4>Key Takeaway</h4>
+                    <p>
+                        The anomaly view highlights that recent years show systematic positive deviations from the long-term norm and that these deviations are not isolated weather blips but part of a broader warming signal.
+                    </p>
+                </div>
+            </section>
+
+            <section id="data-linkage">
+                <h2>2. Data and Linkage: ERA5-Land × MICS</h2>
+                
+                <p>
+                    We merge ERA5-Land monthly maximum temperature with MICS geocoded clusters to align children and households to the climate they experience. Each <strong>MICS cluster contains 25-30 households</strong> at a specific geographic location, allowing us to link household-level outcomes with precise climate data.
+                </p>
+
+                <p>
+                    The analytic sample includes children from Georgia, The Gambia, Madagascar, Malawi, Sierra Leone, and the State of Palestine (MICS 2017–2020).
+                </p>
+
+                <figure>
+                    <img src="gr8TempDistrib.svg" alt="Temperature distributions">
+                    <figcaption>
+                        <strong>Figure 5: Temperature Distributions by Country.</strong> Box plots show the range of temperature exposure from birth to interview date for children in each study country. The variation reflects both geographic differences and the timing of surveys.
+                    </figcaption>
+                </figure>
+
+                <h3>Geographic Distribution of Survey Clusters</h3>
+
+                <p>
+                    The maps below show the spatial distribution of MICS survey clusters across all six countries in our sample. This geographic variation allows us to capture diverse climate conditions and household characteristics.
+                </p>
+
+                <div class="country-grid">
+                    <figure>
+                        <img src="gr5aGeorgia.svg" alt="Georgia clusters">
+                        <figcaption><strong>Georgia</strong></figcaption>
+                    </figure>
+                    <figure>
+                        <img src="gr5aGambia.svg" alt="Gambia clusters">
+                        <figcaption><strong>The Gambia</strong></figcaption>
+                    </figure>
+                    <figure>
+                        <img src="gr5aMadagascar.svg" alt="Madagascar clusters">
+                        <figcaption><strong>Madagascar</strong></figcaption>
+                    </figure>
+                    <figure>
+                        <img src="gr5aMalawi.svg" alt="Malawi clusters">
+                        <figcaption><strong>Malawi</strong></figcaption>
+                    </figure>
+                    <figure>
+                        <img src="gr5aPalestine.svg" alt="Palestine clusters">
+                        <figcaption><strong>State of Palestine</strong></figcaption>
+                    </figure>
+                    <figure>
+                        <img src="gr5aSierraLEone.svg" alt="Sierra Leone clusters">
+                        <figcaption><strong>Sierra Leone</strong></figcaption>
+                    </figure>
+                </div>
+
+                <h3>The Spatial Join Process</h3>
+
+                <p>
+                    To link climate data with household outcomes, we perform a spatial join at high resolution. For each child in the sample, we:
+                </p>
+
+                <ul style="margin: 1.5rem 0 1.5rem 2rem;">
+                    <li style="margin-bottom: 0.75rem;"><strong>Extract monthly temperature</strong> from ERA5-Land at the cluster's coordinates (~0.1° or ~10km resolution)</li>
+                    <li style="margin-bottom: 0.75rem;"><strong>Aggregate across time periods</strong> from the child's birth date to interview date, as well as specific windows (e.g., 6 months before interview)</li>
+                    <li style="margin-bottom: 0.75rem;"><strong>Calculate anomalies</strong> relative to the 1991-2020 baseline to capture unusual heat exposure</li>
+                    <li><strong>Match to household clusters</strong> containing 25-30 households each, preserving geographic precision</li>
+                </ul>
+
+                <p>
+                    This process creates a powerful dataset linking precise temperature exposures to child and household outcomes at specific points in time.
+                </p>
+
+                <figure>
+                    <img src="gr5bMadagascar.svg" alt="Madagascar temperature overlay">
+                    <figcaption>
+                        <strong>Figure 6: Example of Spatial Join—Madagascar.</strong> Survey clusters (dark blue circles) overlaid on 2024 temperature anomaly map (color scale from cool blue to hot red). This visualization shows how we link household locations to high-resolution climate data, capturing spatial variation in heat exposure within a single country.
+                    </figcaption>
+                </figure>
+
+                <div class="callout">
+                    <h4>Why This Design Matters</h4>
+                    <p>
+                        The formal studies compare children within the same subnational regions and interview months, exploiting hotter-than-usual vs typical local temperatures rather than cross-country differences. That's the logic behind the fixed-effects models: hold constant the "usual" climate in each place/season and ask what happens when recent heat is unusually high.
+                    </p>
+                </div>
+            </section>
+
+            <section id="methods">
+                <h2>3. Methods and Identification</h2>
+                
+                <p>
+                    Both papers apply fixed-effects designs on geocoded, time-stamped data to isolate the causal effect of temperature deviations on child and family outcomes.
+                </p>
+
+                <h3>Outcome Measures</h3>
+
+                <p><strong>Discipline & Aggression (MICS discipline module):</strong></p>
+                <ul style="margin: 1rem 0 1.5rem 2rem;">
+                    <li style="margin-bottom: 0.5rem;">Physical punishment (e.g., shook, spanked)</li>
+                    <li style="margin-bottom: 0.5rem;">Severe physical punishment (e.g., hit with object, beat up)</li>
+                    <li style="margin-bottom: 0.5rem;">Psychological aggression (e.g., shouted, called names)</li>
+                    <li>Non-violent discipline (e.g., explained, took away privileges)</li>
+                </ul>
+
+                <p><strong>Early Childhood Development (ECDI):</strong></p>
+                <p>
+                    A 10-item parent-reported scale measuring developmental milestones (ages 36-59 months) across four domains: social-emotional, literacy-numeracy, approaches to learning, and physical. Children are classified as "on track" if they exhibit at least 50% of skills in each domain.
+                </p>
+
+                <h3>Econometric Model</h3>
+
+                <div class="equation">
+Y<sub>ict</sub> = β · Temp<sub>ict</sub> + X<sub>i</sub>θ + τ<sub>c</sub> + φ<sub>t</sub> + ε<sub>ict</sub>
+                </div>
+
+                <p style="margin-top: 1.5rem;">Where:</p>
+                <ul style="margin: 1rem 0 1.5rem 2rem;">
+                    <li style="margin-bottom: 0.5rem;"><strong>Y<sub>ict</sub></strong>: outcome for child i in cluster/region c at time t</li>
+                    <li style="margin-bottom: 0.5rem;"><strong>Temp<sub>ict</sub></strong>: recent or cumulative temperature exposure</li>
+                    <li style="margin-bottom: 0.5rem;"><strong>X<sub>i</sub></strong>: child and household covariates</li>
+                    <li style="margin-bottom: 0.5rem;"><strong>τ<sub>c</sub></strong>: subnational region fixed effects</li>
+                    <li><strong>φ<sub>t</sub></strong>: month-year fixed effects</li>
+                </ul>
+
+                <p>
+                    This design holds constant the "typical climate" of places and seasons; remaining variation is the unexpected local heat at interview timing.
+                </p>
+            </section>
+
+            <section id="parenting">
+                <h2>4. Heat and Parenting Behavior: Exploratory Patterns</h2>
+                
+                <p class="lead">
+                    Beyond physical discomfort, heat can affect how people think, feel, and act. Does temperature influence parenting behaviors and discipline practices?
+                </p>
+
+                <p>
+                    In the pooled sample, prevalence rates of harsh discipline are high: physical punishment ~64%, severe physical punishment ~56%, psychological aggression ~80%, non-violent discipline ~88%. But do these behaviors vary systematically with temperature exposure?
+                </p>
+
+                <figure>
+                    <img src="gr6AggressionTemp.svg" alt="Aggression vs temperature">
+                    <figcaption>
+                        <strong>Figure 7: Exploratory Pattern—Mean Temperature by Discipline Type.</strong> This chart shows the average temperature exposure (6 months before interview) for children who experienced each type of discipline. The pattern suggests that harsher discipline types are associated with slightly higher temperatures, but this is a simple correlation without controls.
+                    </figcaption>
+                </figure>
+
+                <p>
+                    The exploratory visualization reveals an intriguing gradient: children who experienced more severe forms of discipline were exposed to somewhat higher temperatures in the months before the survey. However, this simple correlation could reflect many confounding factors—baseline climate differences across countries, seasonal patterns, wealth, urbanicity, and more.
+                </p>
+
+                <h3>Why Use Binned Temperature Approaches?</h3>
+
+                <p>
+                    To rigorously test whether heat <em>causes</em> increases in harsh parenting, we cannot assume the relationship is linear. Heat effects may exhibit thresholds—little impact at moderate temperatures, but sharp increases beyond certain points (e.g., 30-32°C). Binned approaches allow us to:
+                </p>
+
+                <ul style="margin: 1.5rem 0 1.5rem 2rem;">
+                    <li style="margin-bottom: 0.75rem;"><strong>Avoid functional form assumptions:</strong> We don't impose linearity if the true relationship has thresholds or plateaus</li>
+                    <li style="margin-bottom: 0.75rem;"><strong>Identify non-linearities:</strong> See where temperature effects accelerate or level off</li>
+                    <li style="margin-bottom: 0.75rem;"><strong>Increase transparency:</strong> Visual binscatter plots show the data directly, not just regression coefficients</li>
+                </ul>
+
+                <p>
+                    The first paper uses both continuous (linear) and binned specifications with comprehensive fixed effects and controls to isolate the causal impact of unusual heat exposure.
+                </p>
+
+                <div class="callout">
+                    <h4>Key Findings from Cuartas & Camacho (2025)</h4>
+                    <p>
+                        Using fixed-effects models that compare caregivers in the same subnational region and month-year under hotter-than-usual vs. typical conditions, the paper finds:
+                    </p>
+                    <p style="margin-top: 1rem;"><strong>Per +1 SD increase in temperature</strong> (≈ +3.9 °C in recent 6-month mean maximum):</p>
+                    <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+                        <li style="margin-bottom: 0.5rem;"><strong>Severe physical punishment:</strong> +7.6 percentage points (p < 0.01)</li>
+                        <li style="margin-bottom: 0.5rem;"><strong>Psychological aggression:</strong> +4.2 percentage points (p < 0.05)</li>
+                        <li>Effects on milder physical punishment and non-violent discipline are not statistically robust</li>
+                    </ul>
+                    <p style="margin-top: 1rem; font-size: 0.95rem; color: #555;">
+                        These estimates come from models with subnational region fixed effects, month-year fixed effects, and standard household/child covariates, isolating short-run temperature deviations at interview timing. Binned plots confirm a monotonic rise in harsh behaviors with heat, consistent with the linear fixed-effects estimates.
+                    </p>
+                </div>
+
+                <p style="margin-top: 1.5rem;">
+                    <strong>Interpretation:</strong> Heat loads increase physiological stress and impair emotion regulation, raising the propensity for harsh responses during caregiving. The magnitude of these effects suggests that climate change may be meaningfully increasing the risk of violent discipline in vulnerable populations.
+                </p>
+            </section>
+
+            <section id="development">
+                <h2>5. Heat and Early Childhood Development: Exploratory Patterns</h2>
+                
+                <p class="lead">
+                    Does heat exposure affect early childhood development outcomes? The ECDI provides a comprehensive measure of developmental progress across cognitive, social-emotional, and physical domains.
+                </p>
+
+                <p>
+                    In the analytic sample, 63% of children (ages 36-59 months) were classified as developmentally "on track" and 37% were not. The question is whether temperature exposure—measured from birth to interview—predicts these developmental outcomes.
+                </p>
+
+                <figure>
+                    <img src="gr7ECDITemp.svg" alt="ECDI vs temperature">
+                    <figcaption>
+                        <strong>Figure 8: Exploratory Pattern—ECDI "On Track" Probability by Temperature Bins.</strong> This figure shows both unadjusted (simple) and adjusted (with controls) probabilities of being developmentally on track across temperature bins. The unadjusted line shows raw correlations; the adjusted line includes basic controls but not the full fixed-effects specification used in the paper.
+                    </figcaption>
+                </figure>
+
+                <p>
+                    The exploratory pattern suggests a concerning trend: as temperature bins increase, the probability of being on track declines, with sharper drops appearing beyond ~30-32°C. However, as with the parenting results, this could reflect confounding by baseline climate, seasonality, poverty, or infrastructure differences.
+                </p>
+
+                <h3>The Case for Binned Temperature Specifications</h3>
+
+                <p>
+                    Developmental impacts of heat may not be linear. There may be:
+                </p>
+
+                <ul style="margin: 1.5rem 0 1.5rem 2rem;">
+                    <li style="margin-bottom: 0.75rem;"><strong>Physiological thresholds:</strong> Human thermoregulation works well up to a point, then degrades rapidly</li>
+                    <li style="margin-bottom: 0.75rem;"><strong>Behavioral tipping points:</strong> Heat stress may only become severe enough to disrupt caregiving or child health beyond certain temperatures</li>
+                    <li style="margin-bottom: 0.75rem;"><strong>Adaptation limits:</strong> Households may cope with moderate heat but struggle once temperatures exceed local norms</li>
+                </ul>
+
+                <p>
+                    The second paper uses binned temperature specifications with 1°C bins (reference: <26°C) alongside the same rigorous fixed-effects design—subnational region and month-year fixed effects—to control for all time-invariant regional characteristics and common seasonal patterns.
+                </p>
+
+                <div class="callout">
+                    <h4>Key Findings from Cuartas et al. (2025)</h4>
+                    <p>
+                        Using fixed-effects models with region and month-year controls plus atmospheric covariates, the paper finds:
+                    </p>
+                    <p style="margin-top: 1rem;">
+                        <strong>Children exposed to >30°C</strong> (from birth to interview) are approximately <strong>14–20.8 percentage points less likely</strong> to be developmentally on track compared to children exposed to <26°C.
+                    </p>
+                    <p style="margin-top: 1rem;">
+                        <strong>Heterogeneity analyses reveal larger negative effects among:</strong>
+                    </p>
+                    <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+                        <li style="margin-bottom: 0.5rem;"><strong>Poorer households</strong> (limited resources for cooling, healthcare)</li>
+                        <li style="margin-bottom: 0.5rem;"><strong>Urban settings</strong> (heat island effects, crowding)</li>
+                        <li><strong>Settings without improved water/sanitation</strong> (compounded environmental stress)</li>
+                    </ul>
+                    <p style="margin-top: 1rem; font-size: 0.95rem; color: #555;">
+                        Predicted margins from binned specifications show that the probability of being "ECDI on track" declines monotonically with temperature, with sharper losses above 30–32°C. Both continuous (binscatter) and binned models converge on similar magnitudes, and results are robust to alternative functional forms and controls.
+                    </p>
+                </div>
+
+                <p style="margin-top: 1.5rem;">
+                    <strong>Interpretation:</strong> Heat exposure during early childhood appears to directly burden children's physiology, sleep, and caregiving environments. The developmental losses are not evenly distributed—they concentrate among the most vulnerable populations who lack adaptive capacity, creating climate-driven inequality in life chances from the earliest years.
+                </p>
+            </section>
+
+            <section id="exposure">
+                <h2>6. Synthesis: Connecting Mechanism and Evidence</h2>
+                
+                <p class="lead">
+                    The exploratory patterns and rigorous paper findings converge on a coherent story about how heat affects families and children.
+                </p>
+
+                <h3>A Clear Mechanism</h3>
+
+                <p>
+                    Heat increases household stress and reduces the quality of caregiving environments while directly burdening children's physiology, sleep, and cognitive functioning. The effects intensify as temperatures move into the 30–35°C range—precisely where many of our sample countries are experiencing increasing exposure due to climate change.
+                </p>
+
+                <p>
+                    The econometric designs in both papers focus on within-place variation to avoid confounding from baseline climatic differences and seasonality. By comparing children in the same regions interviewed in the same months but under different temperature conditions, the fixed-effects models isolate the effect of short-run temperature deviations.
+                </p>
+
+                <h3>The Role of Vulnerability</h3>
+
+                <p>
+                    The developmental impacts are not evenly distributed. They concentrate among:
+                </p>
+
+                <ul style="margin: 1.5rem 0 1.5rem 2rem;">
+                    <li style="margin-bottom: 0.75rem;"><strong>Poorer households</strong> with limited resources for cooling, healthcare, and nutritious food</li>
+                    <li style="margin-bottom: 0.75rem;"><strong>Urban areas</strong> experiencing heat island effects and crowded living conditions</li>
+                    <li><strong>Communities without improved water/sanitation</strong> facing compounded environmental stress</li>
+                </ul>
+
+                <p>
+                    This heterogeneity reveals that heat exposure creates and amplifies inequality from the earliest years of life—children already disadvantaged face the largest developmental losses when temperatures rise.
+                </p>
+
+                <div class="callout">
+                    <h4>Sample Context</h4>
+                    <p>
+                        The pooled analytic sample includes ≈21,100 children living in 3,600+ clusters across Georgia, The Gambia, Madagascar, Malawi, Sierra Leone, and the State of Palestine (MICS 2017–2020). Temperature exposure ranges from under 20°C to over 35°C, providing substantial variation for identifying heat effects across diverse climatic and socioeconomic contexts.
+                    </p>
+                </div>
+            </section>
+
+            <section id="implications">
+                <h2>7. Policy Implications and Future Directions</h2>
+
+                <p class="lead">
+                    These findings have immediate relevance for child protection and development policy in warming regions.
+                </p>
+
+                <h3>Policy Recommendations</h3>
+
+                <ul style="margin: 1.5rem 0 1.5rem 2rem;">
+                    <li style="margin-bottom: 0.75rem;"><strong>Recognize heat as a risk factor:</strong> Extreme heat should be included in child protection frameworks as a documented risk factor for maltreatment and developmental delays in climate-vulnerable populations.</li>
+                    
+                    <li style="margin-bottom: 0.75rem;"><strong>Target interventions strategically:</strong> Parenting support programs and early childhood interventions should be prioritized during hot periods and in heat-exposed communities, with additional resources for the most vulnerable households.</li>
+                    
+                    <li style="margin-bottom: 0.75rem;"><strong>Invest in adaptive infrastructure:</strong> Cooling infrastructure (e.g., community cooling centers, improved housing), water/sanitation systems, and green spaces can buffer vulnerable families from heat stress.</li>
+                    
+                    <li style="margin-bottom: 0.75rem;"><strong>Build climate-sensitive social services:</strong> Social service systems should account for seasonal and climate-driven fluctuations in child and family stress, with surge capacity during extreme heat events.</li>
+                    
+                    <li><strong>Address inequality:</strong> Since heat impacts concentrate among the poor, urban dwellers, and those without basic services, climate adaptation must be equity-focused to avoid exacerbating existing disparities.</li>
+                </ul>
+
+                <h3>Future Research Directions</h3>
+
+                <p>
+                    Building on this merged ERA5-Land × MICS dataset, several promising research directions emerge:
+                </p>
+
+                <ul style="margin: 1.5rem 0 1.5rem 2rem;">
+                    <li style="margin-bottom: 0.75rem;"><strong>Exposure decomposition:</strong> Contrast short heat shocks (e.g., prior month) vs cumulative exposure (birth→interview)</li>
+                    
+                    <li style="margin-bottom: 0.75rem;"><strong>Adaptation mechanisms:</strong> Stratify by wealth, urbanicity, water/sanitation to identify where adaptation policies are most needed</li>
+                    
+                    <li style="margin-bottom: 0.75rem;"><strong>Mediating pathways:</strong> Add proxies for caregiver stress or illness episodes; test if they mediate heat → aggression or heat → ECDI</li>
+                    
+                    <li style="margin-bottom: 0.75rem;"><strong>Place-based moderators:</strong> Merge land cover/greenness (MODIS) or nighttime lights (VIIRS) to measure urban heat islands and infrastructure buffers</li>
+                    
+                    <li><strong>Policy simulations:</strong> Simulate cooling access and safe water expansions to estimate potential reductions in harsh discipline and ECDI losses</li>
+                </ul>
+            </section>
+
+            <section id="references">
+                <h2>8. References</h2>
+                
+                <div class="papers">
+                    <h3>Companion Papers</h3>
+                    
+                    <div class="paper-item">
+                        <div class="paper-title">Paper 1: Heat and Violent Child Punishment at Home</div>
+                        <p>
+                            <strong>Cuartas, J., & Camacho, A. (2025).</strong> Psychology of Violence. 
+                        </p>
+                        <p>
+                            Evidence of increased severe physical punishment and psychological aggression with higher recent heat exposure, consistent across linear and binned specifications. The paper links geocoded MICS households to ERA5-Land temperatures and estimates fixed-effects models comparing caregivers interviewed in the same subnational region and month-year under hotter-than-usual conditions.
+                        </p>
+                    </div>
+                    
+                    <div class="paper-item">
+                        <div class="paper-title">Paper 2: Ambient Heat and Early Childhood Development</div>
+                        <p>
+                            <strong>Cuartas, J., Balza, L. H., Camacho, A., & Gómez-Parra, N. (2025).</strong> A Cross-National Analysis.
+                        </p>
+                        <p>
+                            ECDI on-track probabilities decline with higher temperature bins; bins defined with <26 °C as reference. Results are robust across specifications and continuous/binscatter plots. Heterogeneity analyses indicate larger negative effects among poorer and urban households and in settings without improved water/sanitation, consistent with compounded exposure and lower adaptive capacity.
+                        </p>
+                    </div>
+                </div>
+
+                <h3>Data Sources</h3>
+                <ul style="margin: 1.5rem 0 0 2rem;">
+                    <li style="margin-bottom: 0.75rem;">
+                        <strong>UNICEF MICS:</strong> Multiple Indicator Cluster Surveys (2017-2020). Geocoded household and child-level microdata from Georgia, The Gambia, Madagascar, Malawi, Sierra Leone, and State of Palestine.
+                    </li>
+                    <li style="margin-bottom: 0.75rem;">
+                        <strong>ERA5-Land:</strong> ECMWF Reanalysis v5 Land (1950-present). Monthly aggregates of 2-meter maximum temperature at ~0.1° (~10km) spatial resolution.
+                    </li>
+                    <li>
+                        <strong>Climate baseline:</strong> 1991-2020 climatological normal used for anomaly calculations, following WMO standards.
+                    </li>
+                </ul>
+
+                <h3 style="margin-top: 2rem;">Methods References</h3>
+                <ul style="margin: 1rem 0 0 2rem;">
+                    <li style="margin-bottom: 0.75rem;">
+                        UNICEF (2017). Discipline practices in the home. In <em>MICS6 Tools</em>.
+                    </li>
+                    <li>
+                        Loizillon, A., Petrowski, N., Britto, P., & Cappa, C. (2017). Development of the Early Childhood Development Index in MICS surveys. <em>MICS Methodological Papers, No. 6</em>. UNICEF.
+                    </li>
+                </ul>
+            </section>
+
+            <section style="margin-top: 4rem; padding-top: 2rem; border-top: 2px solid #ddd;">
+                <p style="text-align: center; color: #666; font-size: 0.9rem;">
+                    <strong>Andrés Felipe Camacho</strong><br>
+                    University of Chicago | CAPP 30239: Data Visualization for Policy Analysis<br>
+                    November 2025
+                </p>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Smooth scroll and active link highlighting
+        document.addEventListener('DOMContentLoaded', function() {
+            const tocLinks = document.querySelectorAll('nav.toc a');
+            const sections = document.querySelectorAll('main section');
+            
+            // Update active link on scroll
+            function updateActiveLink() {
+                let currentSection = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (window.pageYOffset >= sectionTop - 200) {
+                        currentSection = section.getAttribute('id');
+                    }
+                });
+                
+                tocLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + currentSection) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+            
+            window.addEventListener('scroll', updateActiveLink);
+            updateActiveLink();
+        });
+    </script>
+</body>
+</html>
+
