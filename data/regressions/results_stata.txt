@@ -1,0 +1,60 @@
+ecdi_binned = [
+    {"temp_bin": "<26", "ECDI_on_track": 0.77},
+    {"temp_bin": "26",  "ECDI_on_track": 0.76},
+    {"temp_bin": "27",  "ECDI_on_track": 0.74},
+    {"temp_bin": "28",  "ECDI_on_track": 0.72},
+    {"temp_bin": "29",  "ECDI_on_track": 0.70},
+    {"temp_bin": "30",  "ECDI_on_track": 0.67},
+    {"temp_bin": "31",  "ECDI_on_track": 0.65},
+    {"temp_bin": "32",  "ECDI_on_track": 0.63},
+    {"temp_bin": "33",  "ECDI_on_track": 0.61},
+    {"temp_bin": "34",  "ECDI_on_track": 0.60},
+    {"temp_bin": "≥35", "ECDI_on_track": 0.59},
+]
+
+
+violence_binned = [
+    # temperature z-score bins (approximate; −2 SD to +2 SD)
+    {"temp_sd": -2, "severe_physical_punishment": 0.52, "psychological_aggression": 0.78,
+     "physical_punishment": 0.63, "nonviolent_discipline": 0.88},
+    {"temp_sd": -1, "severe_physical_punishment": 0.54, "psychological_aggression": 0.79,
+     "physical_punishment": 0.64, "nonviolent_discipline": 0.88},
+    {"temp_sd":  0, "severe_physical_punishment": 0.56, "psychological_aggression": 0.80,
+     "physical_punishment": 0.64, "nonviolent_discipline": 0.88},
+    {"temp_sd": +1, "severe_physical_punishment": 0.61, "psychological_aggression": 0.83,
+     "physical_punishment": 0.65, "nonviolent_discipline": 0.87},
+    {"temp_sd": +2, "severe_physical_punishment": 0.64, "psychological_aggression": 0.84,
+     "physical_punishment": 0.65, "nonviolent_discipline": 0.87},
+]
+
+ecdi_domain_binned = [
+    {"temp_bin": "<26", "domain": "literacy_numeracy", "on_track": 0.74},
+    {"temp_bin": ">30", "domain": "literacy_numeracy", "on_track": 0.68},
+    {"temp_bin": "32",  "domain": "socio_emotional",  "on_track": 0.70},
+]
+
+ecdi_effects_keybins = [
+    # Effects are change in probability (pp) vs baseline <26°C mean monthly Tmax, adjusted model with region & month-year FE
+    {"temp_bin": "≥32°C", "effect_pp_mid": -4.8, "effect_pp_low": -7.7, "effect_pp_high": -1.8,
+     "outcome": "ECDI_on_track", "model": "adjusted", "note": "Range reported across 32°C bins; direction consistent."},
+
+    # Domain-specific highlights
+    {"temp_bin": ">30°C", "effect_pp_mid": -5.9, "effect_pp_low": -5.0, "effect_pp_high": -6.7,
+     "outcome": "ECDI_literacy_numeracy_on_track", "model": "adjusted", "note": "Range across >30°C bins."},
+
+    {"temp_bin": "32°C",  "effect_pp_mid": -6.9, "effect_pp_low": -6.9, "effect_pp_high": -6.9,
+     "outcome": "ECDI_social_emotional_on_track", "model": "adjusted", "note": "Point estimate at 32°C."},
+]
+
+violence_effects_overall = [
+    # Per 1 SD ↑ in recent mean max temperature (6-month window)
+    # dot for midpoint and a rule for the low/high range in pp (percentage points)
+    {"outcome": "severe_physical_punishment", "effect_pp_mid": 6.0, "effect_pp_low": 4.0, "effect_pp_high": 8.0,
+     "spec": "6m_mean_tmax_zscore", "note": "Per 1 SD increase; linear & binned specs consistent."},
+    {"outcome": "psychological_aggression",  "effect_pp_mid": 3.5, "effect_pp_low": 3.0, "effect_pp_high": 4.0,
+     "spec": "6m_mean_tmax_zscore", "note": "Per 1 SD increase."},
+    {"outcome": "mild_physical_punishment",  "effect_pp_mid": 0.0, "effect_pp_low": 0.0, "effect_pp_high": 0.0,
+     "spec": "6m_mean_tmax_zscore", "note": "No consistent association reported."},
+    {"outcome": "nonviolent_discipline",     "effect_pp_mid": 0.0, "effect_pp_low": 0.0, "effect_pp_high": 0.0,
+     "spec": "6m_mean_tmax_zscore", "note": "No consistent association reported."},
+]

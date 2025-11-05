@@ -8,3 +8,5 @@ climate_datav2.py
 *.json
 
 *.parquet
+
+DEPLOYMENT_GUIDE.md
