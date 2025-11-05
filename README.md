@@ -10,7 +10,7 @@ The interactive data story combines global temperature trends, spatial data link
 
 This work demonstrates how climate change is not just an environmental issue, but a human development crisis affecting the most vulnerable children from their earliest years.
 
-**View the interactive story:** [static_viz/index.html](static_viz/index.html)
+**View the interactive story:** [static-story-deployed](https://anfelipecb.github.io/climate-development/)
 
 ![Screenshot of the interactive data story](ss_page.png)
 
