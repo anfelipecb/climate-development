@@ -47,3 +47,6 @@ Available at: https://www.naturalearthdata.com/
 ---
 
 **Note:** All data sources are properly cited within the final HTML visualization at [static_viz/index.html](static_viz/index.html).
+
+
+** Aked IA to minimally provide an html template with a table of contents and fixed Header to get the design started **
