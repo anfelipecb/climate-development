@@ -298,9 +298,10 @@ def main():
     import time
     start_time = time.time()
     
-    # Paths
-    raw_dir = Path("./processed")  # Raw Stata files are in processed/
-    output_dir = Path("./processed")
+    # Paths - resolve relative to script location
+    script_dir = Path(__file__).parent
+    raw_dir = script_dir / "processed"  # Raw Stata files are in processed/
+    output_dir = script_dir / "processed"
     
     print("="*60)
     print("MICS + ERA5 Data Pipeline")

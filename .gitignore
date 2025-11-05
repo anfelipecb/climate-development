@@ -1,12 +1,23 @@
 *.nc
 
-
 climate_datav2.py
 
-*.csv
-*.dta
-*.json
+# Block files with sensitive geocoded coordinates
+Countries-Cluster.csv
+Countries-Cluser.csv
 
+# Block raw Stata files
+*TEMPERATURE*.dta
+data_NGP_Dec2024.dta
+MICS_*.dta
+
+# Block large climate files
 *.parquet
 
-DEPLOYMENT_GUIDE.md
+# Block other config files
+*.json
+
+# Allow processed CSVs without coordinates to be committed
+!discipline_analysis_clean.csv
+!ecdi_analysis_clean.csv
+!cluster_summary.csv

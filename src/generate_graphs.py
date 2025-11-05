@@ -96,32 +96,46 @@ def load_mics_discipline_data():
     """Load MICS discipline data with temperature exposure."""
     print("Loading MICS discipline data...")
     
-    # Read Stata file directly for now (will use processed CSV once pipeline runs)
-    df = pd.read_stata(DATA_DIR / "MICS_FINAL_Compl_TEMPERATURE_25Nov2024.dta")
+    # Try to load from processed CSV first (safe for GitHub)
+    csv_file = DATA_DIR / "discipline_analysis_clean.csv"
+    stata_file = DATA_DIR / "MICS_FINAL_Compl_TEMPERATURE_25Nov2024.dta"
     
-    # Filter to study countries
-    df = df[df["country"].isin(STUDY_COUNTRIES + ["The Gambia"])]
-    
-    # Create discipline indicators
-    df['physical_punishment'] = (
-        (df['discshook'] == 'Yes') | (df['discspank'] == 'Yes')
-    ).astype(int)
-    
-    df['severe_physical'] = (
-        (df['discstrike'] == 'Yes') | (df['dischithead'] == 'Yes') | 
-        (df['dischitlimb'] == 'Yes') | (df['discbeathard'] == 'Yes')
-    ).astype(int)
-    
-    df['psychological_aggression'] = (
-        (df['discshout'] == 'Yes') | (df['disccallname'] == 'Yes')
-    ).astype(int)
-    
-    df['nonviolent_discipline'] = (
-        (df['discprivileges'] == 'Yes') | (df['discwhywrong'] == 'Yes') | 
-        (df['discnewtask'] == 'Yes')
-    ).astype(int)
-    
-    print(f"  Discipline data: {df.shape}")
+    if csv_file.exists():
+        # Use processed CSV (no coordinates, safe for GitHub)
+        df = pd.read_csv(csv_file)
+        print(f"  Loaded from CSV: {df.shape}")
+    elif stata_file.exists():
+        # Fall back to Stata file (local only, has coordinates)
+        print("  Warning: Using raw Stata file (run data_pipeline.py to create CSV)")
+        df = pd.read_stata(stata_file)
+        
+        # Filter to study countries
+        df = df[df["country"].isin(STUDY_COUNTRIES + ["The Gambia"])]
+        
+        # Create discipline indicators
+        df['physical_punishment'] = (
+            (df['discshook'] == 'Yes') | (df['discspank'] == 'Yes')
+        ).astype(int)
+        
+        df['severe_physical'] = (
+            (df['discstrike'] == 'Yes') | (df['dischithead'] == 'Yes') | 
+            (df['dischitlimb'] == 'Yes') | (df['discbeathard'] == 'Yes')
+        ).astype(int)
+        
+        df['psychological_aggression'] = (
+            (df['discshout'] == 'Yes') | (df['disccallname'] == 'Yes')
+        ).astype(int)
+        
+        df['nonviolent_discipline'] = (
+            (df['discprivileges'] == 'Yes') | (df['discwhywrong'] == 'Yes') | 
+            (df['discnewtask'] == 'Yes')
+        ).astype(int)
+        
+        print(f"  Discipline data: {df.shape}")
+    else:
+        raise FileNotFoundError(
+            f"Neither CSV nor Stata file found. Run 'python data/data_pipeline.py' first."
+        )
     
     return df
 
@@ -130,12 +144,27 @@ def load_mics_ecdi_data():
     """Load MICS ECDI data with temperature exposure."""
     print("Loading MICS ECDI data...")
     
-    df = pd.read_stata(DATA_DIR / "data_NGP_Dec2024.dta")
+    # Try to load from processed CSV first (safe for GitHub)
+    csv_file = DATA_DIR / "ecdi_analysis_clean.csv"
+    stata_file = DATA_DIR / "data_NGP_Dec2024.dta"
     
-    # Filter to study countries
-    df = df[df["country"].isin(STUDY_COUNTRIES + ["The Gambia"])]
-    
-    print(f"  ECDI data: {df.shape}")
+    if csv_file.exists():
+        # Use processed CSV (no coordinates, safe for GitHub)
+        df = pd.read_csv(csv_file)
+        print(f"  Loaded from CSV: {df.shape}")
+    elif stata_file.exists():
+        # Fall back to Stata file (local only, has coordinates)
+        print("  Warning: Using raw Stata file (run data_pipeline.py to create CSV)")
+        df = pd.read_stata(stata_file)
+        
+        # Filter to study countries
+        df = df[df["country"].isin(STUDY_COUNTRIES + ["The Gambia"])]
+        
+        print(f"  ECDI data: {df.shape}")
+    else:
+        raise FileNotFoundError(
+            f"Neither CSV nor Stata file found. Run 'python data/data_pipeline.py' first."
+        )
     
     return df
 
