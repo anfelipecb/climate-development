@@ -260,7 +260,7 @@ def graph1_temperature_time_series(df):
     note = alt.Chart({"values": [{}]}).mark_text(
         align="left",
         baseline="top",
-        fontSize=10,
+        fontSize=13,
         color="gray",
         dx=-400,
         dy=10
@@ -341,7 +341,7 @@ def graph2_rolling_anomalies(df):
     note = alt.Chart({"values": [{}]}).mark_text(
         align="left",
         baseline="top",
-        fontSize=10,
+        fontSize=13,
         color="gray",
         dx=-400,
         dy=10
@@ -401,7 +401,7 @@ def graph3_monthly_heatmap(df):
     note = alt.Chart({"values": [{}]}).mark_text(
         align="left",
         baseline="top",
-        fontSize=10,
+        fontSize=13,
         color="gray",
         dx=-400,
         dy=10
@@ -477,7 +477,7 @@ def graph4_world_map(df):
     note = alt.Chart({"values": [{}]}).mark_text(
         align="left",
         baseline="top",
-        fontSize=10,
+        fontSize=13,
         color="gray",
         dx=-400,
         dy=10
@@ -491,6 +491,16 @@ def graph4_world_map(df):
 
 
 # === GRAPH 5: Cluster Maps by Country ===
+
+# Country bounds for data validation (latitude, longitude ranges)
+COUNTRY_BOUNDS = {
+    "Malawi": {"lat_min": -17, "lat_max": -9, "lon_min": 32, "lon_max": 36},
+    "Georgia": {"lat_min": 41, "lat_max": 43, "lon_min": 40, "lon_max": 47},
+    "Gambia": {"lat_min": 13, "lat_max": 14, "lon_min": -17, "lon_max": -13},
+    "Madagascar": {"lat_min": -26, "lat_max": -11, "lon_min": 43, "lon_max": 51},
+    "Sierra Leone": {"lat_min": 7, "lat_max": 10, "lon_min": -13, "lon_max": -10},
+    "State of Palestine": {"lat_min": 31, "lat_max": 32, "lon_min": 34, "lon_max": 36},
+}
 
 def graph5_cluster_maps(df_clusters):
     """Create maps for each study country showing cluster locations."""
@@ -507,6 +517,21 @@ def graph5_cluster_maps(df_clusters):
         df_country = df_clusters.filter(pl.col("country_str") == country)
         if len(df_country) == 0:
             continue
+        
+        # Data validation: filter outliers only for Malawi (known data quality issue)
+        if country == "Malawi":
+            bounds = COUNTRY_BOUNDS.get(country)
+            if bounds:
+                initial_count = len(df_country)
+                df_country = df_country.filter(
+                    (pl.col("latitude") >= bounds["lat_min"]) &
+                    (pl.col("latitude") <= bounds["lat_max"]) &
+                    (pl.col("longitude") >= bounds["lon_min"]) &
+                    (pl.col("longitude") <= bounds["lon_max"])
+                )
+                filtered_count = initial_count - len(df_country)
+                if filtered_count > 0:
+                    print(f"  Filtered {filtered_count} outlier(s) from {country}")
         
         # Convert to pandas for Altair
         df_country_pd = df_country.to_pandas()
@@ -532,7 +557,13 @@ def graph5_cluster_maps(df_clusters):
         )
         
         chart = (background + points).project(type="mercator").properties(
-            width=800, height=300, title=f"Survey Clusters in {country}"
+            width=800, 
+            height=300, 
+            title={
+                "text": f"Survey Clusters in {country}",
+                "fontSize": 18,
+                "fontWeight": 600
+            }
         )
         
         # Save with sanitized filename
@@ -639,7 +670,7 @@ def graph5b_madagascar_overlay(df_clusters, spatial_data):
     note = alt.Chart({"values": [{}]}).mark_text(
         align="left",
         baseline="top",
-        fontSize=10,
+        fontSize=13,
         color="gray",
         dx=-400,
         dy=10
@@ -687,12 +718,12 @@ def graph6_discipline_temperature(df):
     
     df_stats = pd.DataFrame(stats_list)
     
-    # Color scheme: Yellow to Red gradient (severity)
+    # Color scheme: Blue/Purple to Orange gradient (temperature increases)
     colors = [
-        "#fef3c7",  # Light yellow (nonviolent)
-        "#fcd34d",  # Yellow (psychological)
-        "#f97316",  # Orange (physical)
-        "#b91c1c"   # Dark red (severe physical)
+        "#6366f1",  # Indigo/blue (nonviolent - cooler temp)
+        "#8b5cf6",  # Purple (psychological)
+        "#f97316",  # Orange (physical - warmer temp)
+        "#ea580c"   # Dark orange (severe physical - warmest temp)
     ]
     
     discipline_order = [
@@ -741,7 +772,7 @@ def graph6_discipline_temperature(df):
     note = alt.Chart({"values": [{}]}).mark_text(
         align="left",
         baseline="top",
-        fontSize=10,
+        fontSize=13,
         color="gray",
         dx=-300,
         dy=10
@@ -877,7 +908,7 @@ def graph7_ecdi_temperature(df):
     note = alt.Chart({"values": [{}]}).mark_text(
         align="left",
         baseline="top",
-        fontSize=10,
+        fontSize=13,
         color="gray",
         dx=-350,
         dy=10
@@ -899,7 +930,11 @@ def graph8_temp_distribution(df):
     # Filter to relevant columns
     df_plot = df[['country', 't_from_birth_to_interview']].dropna()
     
-    chart = alt.Chart(df_plot).mark_boxplot(size=30, color='#fcd34d', opacity=0.7).encode(
+    chart = alt.Chart(df_plot).mark_boxplot(
+        size=30, 
+        color='#fcd34d', 
+        opacity=0.7
+    ).encode(
         x=alt.X('t_from_birth_to_interview:Q', title='Temperature (°C)'),
         y=alt.Y('country:N', title='Country')
     ).properties(
@@ -912,7 +947,7 @@ def graph8_temp_distribution(df):
     note = alt.Chart({"values": [{}]}).mark_text(
         align="left",
         baseline="top",
-        fontSize=10,
+        fontSize=13,
         color="gray",
         dx=-400,
         dy=10

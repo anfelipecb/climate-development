@@ -12,7 +12,7 @@ This work demonstrates how climate change is not just an environmental issue, bu
 
 **View the interactive story:** [static-story-deployed](https://anfelipecb.github.io/climate-development/)
 
-![Screenshot of the interactive data story](ss_page.png)
+![Screenshot of the interactive data story](ClimateEffects.png)(https://anfelipecb.github.io/climate-development/)
 
 ## Data Sources
 
@@ -49,4 +49,4 @@ Available at: https://www.naturalearthdata.com/
 **Note:** All data sources are properly cited within the final HTML visualization at [static_viz/index.html](static_viz/index.html).
 
 
-** Aked IA to minimally provide an html template with a table of contents and fixed Header to get the design started **
+I used AI to minimally provide an html template with a table of contents and fixed Header to get the design started **

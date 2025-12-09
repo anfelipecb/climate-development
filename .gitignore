@@ -1,23 +1,50 @@
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.python-version
+venv/
+env/
+ENV/
+.venv
+
+# Large data files - Stata
+*.dta
+
+# Large data files - NetCDF
 *.nc
 
-climate_datav2.py
+# Large CSV files (keep smaller processed CSVs)
+data/processed/Countries-Cluser.csv
 
-# Block files with sensitive geocoded coordinates
-Countries-Cluster.csv
-Countries-Cluser.csv
-
-# Block raw Stata files
-*TEMPERATURE*.dta
-data_NGP_Dec2024.dta
-MICS_*.dta
-
-# Block large climate files
+# Parquet files
 *.parquet
 
-# Block other config files
-*.json
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
 
-# Allow processed CSVs without coordinates to be committed
-!discipline_analysis_clean.csv
-!ecdi_analysis_clean.csv
-!cluster_summary.csv
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.log
+*.bak
+
+# Environment variables
+.env
+.env.local
+

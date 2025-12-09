@@ -73,19 +73,19 @@ These files remain **local only** and are NOT committed to GitHub.
 1. **Download climate data** (one-time):
    ```bash
    cd data/
-   python climate_data.py
+   uv run climate_data.py
    ```
 
 2. **Process MICS data** (after placing raw Stata files in `processed/`):
    ```bash
    cd data/
-   python data_pipeline.py
+   uv run data_pipeline.py
    ```
 
 3. **Generate visualizations** (from project root):
    ```bash
    cd src/
-   python generate_graphs.py
+   uv run generate_graphs.py
    ```
 
 All outputs will be ready for the HTML visualization in `static_viz/`.
